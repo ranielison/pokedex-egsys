@@ -10,4 +10,6 @@ abstract class PokemonsRepository {
   );
 
   Future<Either<Failure, Pokemon>> getRandomPokemon(NoParams params);
+
+  Future<Either<Failure, Pokemon>> searchPokemonByName(String name);
 }

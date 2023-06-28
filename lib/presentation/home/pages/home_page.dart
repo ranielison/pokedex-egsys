@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/pokemon_card.dart';
+import 'package:pokedex_egsys/presentation/home/widgets/search_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,6 +46,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   children: [
+                    SearchInput(
+                      hint: 'Busque por nome ou id',
+                      onChange: (value) {
+                        _homeBloc.add(SearchPokemonsByName(value));
+                      },
+                    ),
                     Expanded(
                       child: GridView(
                         controller: _scrollController,
@@ -53,9 +60,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           crossAxisCount: 2,
                           //childAspectRatio: 4 / 2,
                         ),
-                        children: state.pokemons
-                            .map((item) => PokemonCard(pokemon: item))
-                            .toList(),
+                        children: state.filteredPokemons != null
+                            ? state.filteredPokemons!
+                                .map((item) => PokemonCard(pokemon: item))
+                                .toList()
+                            : state.pokemons
+                                .map((item) => PokemonCard(pokemon: item))
+                                .toList(),
                       ),
                     ),
                     if (state.loadingMore)

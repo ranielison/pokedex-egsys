@@ -50,4 +50,15 @@ class PokemonsRepositoryImpl implements PokemonsRepository {
       },
     );
   }
+
+  @override
+  Future<Either<Failure, Pokemon>> searchPokemonByName(String name) async {
+    final response = await pokemonsRemoteDatasource.getPokemonByIdentify(name);
+    return response.fold(
+      (failure) => Left(failure),
+      (pokemonsResponse) async {
+        return Right(pokemonsResponse.toEntity());
+      },
+    );
+  }
 }
