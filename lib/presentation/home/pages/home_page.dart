@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pokedex_egsys/core/theme/app_colors.dart';
+import 'package:pokedex_egsys/core/theme/text_syles.dart';
+import 'package:pokedex_egsys/core/widgets/default_app_bar.dart';
+import 'package:pokedex_egsys/core/widgets/default_screen.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/pokemon_card.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/search_bar.dart';
@@ -17,6 +21,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late HomeBloc _homeBloc;
   late final AnimationController _controller;
   final ScrollController _scrollController = ScrollController();
+  final _searchBarController = TextEditingController();
 
   @override
   void initState() {
@@ -34,54 +39,96 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Pokedex'),
-        backgroundColor: Colors.red,
-      ),
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state is HomeInitial) {
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  children: [
-                    SearchInput(
-                      hint: 'Busque por nome ou id',
-                      onChange: (value) {
-                        _homeBloc.add(SearchPokemonsByName(value));
-                      },
-                    ),
-                    Expanded(
-                      child: GridView(
-                        controller: _scrollController,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          //childAspectRatio: 4 / 2,
-                        ),
-                        children: state.filteredPokemons != null
-                            ? state.filteredPokemons!
-                                .map((item) => PokemonCard(pokemon: item))
-                                .toList()
-                            : state.pokemons
-                                .map((item) => PokemonCard(pokemon: item))
-                                .toList(),
+      backgroundColor: AppColors.grey8,
+      body: DefaultScreen(
+        child: Column(
+          children: [
+            const DefaultAppBar(
+              title: 'My Pokedex',
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeSuccess) {
+                    return SafeArea(
+                      child: Column(
+                        children: [
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 500),
+                            child: !state.enabledFilters
+                                ? Column(
+                                    children: [
+                                      SearchInput(
+                                        hint: 'Busque por nome ou id',
+                                        controller: _searchBarController,
+                                        onClean: () {
+                                          setState(() {});
+                                        },
+                                        onChange: (value) {
+                                          setState(() {
+                                            _homeBloc.add(
+                                              SearchPokemonsByName(
+                                                value,
+                                              ),
+                                            );
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
+                          ),
+                          const SizedBox(height: 12),
+                          Expanded(
+                            child: _searchBarController.text.isNotEmpty &&
+                                    state.filteredPokemons!.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      'Nenum resultado encontrado',
+                                      style: TextStyles.h5Style.copyWith(
+                                        color: AppColors.grey3,
+                                      ),
+                                    ),
+                                  )
+                                : GridView(
+                                    controller: _scrollController,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 4,
+                                      crossAxisSpacing: 4,
+                                      //childAspectRatio: 4 / 2,
+                                    ),
+                                    children:
+                                        state.filteredPokemons?.isNotEmpty ??
+                                                false
+                                            ? state.filteredPokemons!
+                                                .map((item) =>
+                                                    PokemonCard(pokemon: item))
+                                                .toList()
+                                            : state.pokemons
+                                                .map((item) =>
+                                                    PokemonCard(pokemon: item))
+                                                .toList(),
+                                  ),
+                          ),
+                          if (state.loadingMore)
+                            const SpinKitThreeBounce(
+                              color: Colors.red,
+                              size: 25,
+                            ),
+                        ],
                       ),
-                    ),
-                    if (state.loadingMore)
-                      const SpinKitThreeBounce(
-                        color: Colors.red,
-                        size: 25,
-                      ),
-                  ],
-                ),
-              ),
-            );
-          }
+                    );
+                  }
 
-          return Container();
-        },
+                  return Container();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

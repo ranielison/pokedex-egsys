@@ -3,11 +3,11 @@ import 'package:pokedex_egsys/core/theme/app_colors.dart';
 
 class SearchInput extends StatefulWidget {
   final String hint;
-  final Function? onChange;
+  final Function(String value)? onChange;
   final TextEditingController? controller;
   final Function? onTap;
   final bool? isSearching;
-  final Function? onClean;
+  final Function()? onClean;
 
   const SearchInput({
     super.key,
@@ -35,7 +35,11 @@ class _SearchInputState extends State<SearchInput>
           //inputFormatters: widget.mask == null ? null : [widget.mask!],
           onTap: widget.onTap as void Function()?,
           controller: widget.controller,
-          onChanged: widget.onChange as void Function(String)?,
+          onChanged: (value) {
+            setState(() {
+              widget.onChange?.call(value);
+            });
+          },
           cursorColor: AppColors.grey3,
           cursorWidth: 1,
           decoration: InputDecoration(
@@ -46,19 +50,27 @@ class _SearchInputState extends State<SearchInput>
                 borderRadius: BorderRadius.circular(8)),
             hintText: widget.hint,
             hintStyle: const TextStyle(
-              color: AppColors.grey7,
+              color: AppColors.grey5,
             ),
             filled: true,
-            fillColor: AppColors.grey8,
+            fillColor: AppColors.white,
             focusedBorder: InputBorder.none,
-            suffixIcon: GestureDetector(
-              onTap: widget.onClean as void Function()?,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: widget.isSearching! ? 15 : 10),
-                child: const Icon(Icons.close),
-              ),
-            ),
+            suffixIcon: widget.controller!.text.isEmpty
+                ? const SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      widget.controller!.clear();
+                      widget.onClean?.call();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: widget.isSearching! ? 15 : 10),
+                      child: const Icon(
+                        Icons.close,
+                        color: AppColors.grey3,
+                      ),
+                    ),
+                  ),
           ),
         ),
       ),

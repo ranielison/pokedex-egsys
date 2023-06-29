@@ -74,7 +74,7 @@ class DioClient {
     } on DioException catch (e) {
       return Left(
         ServerFailure(
-          e.response?.data['description'] as String? ?? e.message,
+          e.response?.data ?? e.message,
         ),
       );
     }

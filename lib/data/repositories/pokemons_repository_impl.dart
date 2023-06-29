@@ -61,4 +61,16 @@ class PokemonsRepositoryImpl implements PokemonsRepository {
       },
     );
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getAllTypes() async {
+    final response = await pokemonsRemoteDatasource.getAllTypes();
+
+    return response.fold(
+      (failure) => Left(failure),
+      (typesResponse) async {
+        return Right(typesResponse.types!.map((item) => item).toList());
+      },
+    );
+  }
 }

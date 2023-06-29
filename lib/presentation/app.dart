@@ -16,7 +16,7 @@ class App extends StatelessWidget {
         BlocProvider<HomeBloc>(
           create: (_) => sl<HomeBloc>()
             ..add(
-              GetPokemonsEvent(),
+              PrepareStateEvent(),
             ),
         ),
       ],

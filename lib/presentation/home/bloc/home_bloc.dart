@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pokedex_egsys/core/error/failures.dart';
 import 'package:pokedex_egsys/core/usecases/usecase.dart';
 import 'package:pokedex_egsys/domain/entities/pokemon.dart';
+import 'package:pokedex_egsys/domain/usecases/get_all_types.dart';
 import 'package:pokedex_egsys/domain/usecases/get_pokemons.dart';
 import 'package:pokedex_egsys/domain/usecases/get_random_pokemon.dart';
 import 'package:pokedex_egsys/domain/usecases/searh_pokemon_by_name.dart';
@@ -14,18 +15,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetPokemons getPokemons;
   final GetRandomPokemon getRandomPokemon;
   final SearchPokemonByName searchPokemonByName;
+  final GetAllTypes getAllTypes;
 
   HomeBloc({
     required this.getPokemons,
     required this.getRandomPokemon,
     required this.searchPokemonByName,
-  }) : super(const HomeInitial(pokemons: [])) {
+    required this.getAllTypes,
+  }) : super(HomeInitial()) {
+    on<PrepareStateEvent>((event, emit) async {
+      final data = await getAllTypes(NoParams());
+
+      data.fold((l) {
+        if (l is ServerFailure) {}
+      }, (r) {
+        emit(
+          HomeSuccess(
+            pokemons: const [],
+            filteredPokemons: const [],
+            enabledFilters: false,
+            types: r,
+          ),
+        );
+
+        add(GetPokemonsEvent());
+      });
+    });
+
     on<GetPokemonsEvent>((event, emit) async {
-      if ((state as HomeInitial).loadingMore) return;
+      if ((state as HomeSuccess).loadingMore) return;
 
-      emit((state as HomeInitial).copyWith(loadingMore: true));
+      emit((state as HomeSuccess).copyWith(loadingMore: true));
 
-      int page = (state as HomeInitial).page;
+      int page = (state as HomeSuccess).page;
 
       final data = await getPokemons.call(
         GetPokemonsParams(
@@ -38,8 +60,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         if (l is ServerFailure) {}
       }, (r) {
         emit(
-          (state as HomeInitial).copyWith(
-            pokemons: [...(state as HomeInitial).pokemons, ...r],
+          (state as HomeSuccess).copyWith(
+            pokemons: [...(state as HomeSuccess).pokemons, ...r],
             loadingMore: false,
             page: page + 1,
           ),
@@ -60,11 +82,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     on<SearchPokemonsByName>((event, emit) async {
       final pokemon = await searchPokemonByName.call(event.name);
-
+      if (event.name.isEmpty) return;
       pokemon.fold((l) {
-        if (l is ServerFailure) {}
+        if (l is ServerFailure) {
+          emit((state as HomeSuccess).copyWith(filteredPokemons: []));
+        }
       }, (r) {
-        emit((state as HomeInitial).copyWith(pokemons: [r]));
+        emit((state as HomeSuccess).copyWith(filteredPokemons: [r]));
       });
     });
   }

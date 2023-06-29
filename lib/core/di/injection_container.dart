@@ -3,6 +3,7 @@ import 'package:pokedex_egsys/core/api/dio_client.dart';
 import 'package:pokedex_egsys/data/datasources/pokemons_remote_datasource.dart';
 import 'package:pokedex_egsys/data/repositories/pokemons_repository_impl.dart';
 import 'package:pokedex_egsys/domain/repositories/pokemons_repository.dart';
+import 'package:pokedex_egsys/domain/usecases/get_all_types.dart';
 import 'package:pokedex_egsys/domain/usecases/get_pokemons.dart';
 import 'package:pokedex_egsys/domain/usecases/get_random_pokemon.dart';
 import 'package:pokedex_egsys/domain/usecases/searh_pokemon_by_name.dart';
@@ -40,14 +41,15 @@ void useCase() {
   sl.registerLazySingleton(() => GetPokemons(sl()));
   sl.registerLazySingleton(() => GetRandomPokemon(sl()));
   sl.registerLazySingleton(() => SearchPokemonByName(sl()));
+  sl.registerLazySingleton(() => GetAllTypes(sl()));
 }
 
 void bloc() {
   sl.registerFactory(
     () => HomeBloc(
-      getPokemons: sl(),
-      getRandomPokemon: sl(),
-      searchPokemonByName: sl(),
-    ),
+        getPokemons: sl(),
+        getRandomPokemon: sl(),
+        searchPokemonByName: sl(),
+        getAllTypes: sl()),
   );
 }

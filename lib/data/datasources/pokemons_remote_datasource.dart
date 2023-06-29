@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:pokedex_egsys/core/api/dio_client.dart';
 import 'package:pokedex_egsys/core/error/failures.dart';
+import 'package:pokedex_egsys/data/models/get_all_types_response.dart';
 import 'package:pokedex_egsys/data/models/podemon_model.dart';
 import 'package:pokedex_egsys/data/models/pokemons_response.dart';
 import 'package:pokedex_egsys/domain/usecases/get_pokemons.dart';
@@ -10,6 +11,8 @@ abstract class PokemonsRemoteDatasource {
       GetPokemonsParams params);
 
   Future<Either<Failure, PokemonModel>> getPokemonByIdentify(String name);
+
+  Future<Either<Failure, GetAllTypesResponse>> getAllTypes();
 }
 
 class PokemonsRemoteDatasourceImpl implements PokemonsRemoteDatasource {
@@ -40,6 +43,16 @@ class PokemonsRemoteDatasourceImpl implements PokemonsRemoteDatasource {
       converter: (response) => PokemonModel.fromJson(
         response,
       ),
+    );
+
+    return response;
+  }
+
+  @override
+  Future<Either<Failure, GetAllTypesResponse>> getAllTypes() async {
+    final response = await _client.getRequest(
+      '/type',
+      converter: (response) => GetAllTypesResponse.fromJson(response),
     );
 
     return response;

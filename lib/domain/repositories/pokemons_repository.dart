@@ -9,7 +9,10 @@ abstract class PokemonsRepository {
     GetPokemonsParams params,
   );
 
+  //TODO: Remover esse NoParams
   Future<Either<Failure, Pokemon>> getRandomPokemon(NoParams params);
 
   Future<Either<Failure, Pokemon>> searchPokemonByName(String name);
+
+  Future<Either<Failure, List<String>>> getAllTypes();
 }

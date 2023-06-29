@@ -14,28 +14,30 @@ class InitialPage extends StatelessWidget {
         children: [
           SizedBox(
             height: size.height,
-            child: Column(
-              children: [
-                Container(
-                  height: size.height * 0.5,
-                  color: Colors.red,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Pokedex\n By egSYS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 50,
-                      fontFamily: 'Pokemon',
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    height: size.height * 0.5,
+                    color: Colors.red,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Pokedex\n By egSYS',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontFamily: 'Pokemon',
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  height: size.height * 0.5,
-                  color: Colors.white,
-                ),
-              ],
+                  Container(
+                    height: size.height * 0.5,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
           ),
           const PokeballCenter(),

@@ -19,3 +19,5 @@ class SearchPokemonsByName extends HomeEvent {
 }
 
 class GetRandomPokemonEvent extends HomeEvent {}
+
+class PrepareStateEvent extends HomeEvent {}
