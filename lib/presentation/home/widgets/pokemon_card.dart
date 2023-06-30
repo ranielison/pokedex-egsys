@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedex_egsys/core/routes/constants_routes.dart';
 import 'package:pokedex_egsys/core/theme/app_colors.dart';
 import 'package:pokedex_egsys/domain/entities/pokemon.dart';
-import 'package:pokedex_egsys/presentation/details/details_page.dart';
+import 'package:pokedex_egsys/presentation/details/pages/details_page.dart';
 
 class PokemonCard extends StatelessWidget {
   final Pokemon pokemon;
@@ -34,17 +34,18 @@ class PokemonCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: Center(
-                  child: Hero(
-                    tag: pokemon.name!,
-                    child: CachedNetworkImage(
-                      height: 100,
-                      imageUrl: pokemon.pokemonImageUrl,
+              if (pokemon.pokemonImageUrl != null)
+                Expanded(
+                  child: Center(
+                    child: Hero(
+                      tag: pokemon.name!,
+                      child: CachedNetworkImage(
+                        height: 100,
+                        imageUrl: pokemon.pokemonImageUrl!,
+                      ),
                     ),
                   ),
                 ),
-              ),
               Text(
                 pokemon.name?.toUpperCase() ?? '',
                 style: const TextStyle(

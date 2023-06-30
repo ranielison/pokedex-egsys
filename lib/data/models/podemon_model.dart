@@ -8,7 +8,7 @@ class PokemonModel {
   int? order;
   int? baseExperience;
   SpritesModel? sprites;
-  List<TypesModel>? types;
+  List<TypeModel>? types;
   List<AbilityModel>? abilities;
 
   PokemonModel({
@@ -48,7 +48,7 @@ class PokemonModel {
           : null,
       types: json['types'] != null
           ? (json['types'] as List)
-              .map((item) => TypesModel.fromJson(item))
+              .map((item) => TypeModel.fromJson(item))
               .toList()
           : null,
       abilities: json['abilities'] != null
@@ -74,7 +74,7 @@ class PokemonModel {
 
     if (pokemonModel.types != null) {
       data['types'] =
-          pokemonModel.types!.map((v) => TypesModel.toJson(v)).toList();
+          pokemonModel.types!.map((v) => TypeModel.toJson(v)).toList();
     }
     if (pokemonModel.abilities != null) {
       data['abilities'] =
@@ -282,29 +282,29 @@ class OfficialArtworkModel {
   }
 }
 
-class TypesModel {
+class TypeModel {
   int? slot;
-  AbilityModel? type;
+  String? name;
 
-  TypesModel({this.slot, this.type});
+  TypeModel({this.slot, this.name});
 
-  Types toEntity() => Types(
+  Type toEntity() => Type(
         slot: slot,
-        type: type?.toEntity(),
+        name: name,
       );
 
-  static TypesModel fromJson(Map<String, dynamic> json) {
-    return TypesModel(
+  static TypeModel fromJson(Map<String, dynamic> json) {
+    return TypeModel(
       slot: json['slot'],
-      type: json['type'] != null ? AbilityModel.fromJson(json['type']) : null,
+      name: json['type'] != null ? json['type']['name'] : null,
     );
   }
 
-  static Map<String, dynamic> toJson(TypesModel typesModel) {
+  static Map<String, dynamic> toJson(TypeModel typeModel) {
     final Map<String, dynamic> data = {};
-    data['slot'] = typesModel.slot;
-    if (typesModel.type != null) {
-      data['type'] = AbilityModel.toJson(typesModel.type!);
+    data['slot'] = typeModel.slot;
+    if (typeModel.name != null) {
+      data['type'] = typeModel.name;
     }
     return data;
   }

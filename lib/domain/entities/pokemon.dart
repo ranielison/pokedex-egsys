@@ -6,7 +6,7 @@ class Pokemon {
   int? order;
   int? baseExperience;
   Sprites? sprites;
-  List<Types>? types;
+  List<Type>? types;
   List<Ability>? abilities;
 
   Pokemon({
@@ -21,7 +21,7 @@ class Pokemon {
     this.abilities,
   });
 
-  String get pokemonImageUrl {
+  String? get pokemonImageUrl {
     List<String> spritesUrl = [];
     if (sprites?.other != null) {
       if (sprites!.other!.home != null) {
@@ -132,9 +132,9 @@ class OfficialArtwork {
   }
 }
 
-class Types {
+class Type {
   int? slot;
-  Ability? type;
+  String? name;
 
-  Types({this.slot, this.type});
+  Type({this.slot, this.name});
 }
