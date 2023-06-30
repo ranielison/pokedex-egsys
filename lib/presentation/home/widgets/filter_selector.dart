@@ -47,7 +47,14 @@ class FilterSelector extends StatelessWidget {
                         ),
                       ),
                       alignment: Alignment.center,
-                      child: const Text('Name/Id'),
+                      child: Text(
+                        'Name/Id',
+                        style: TextStyle(
+                          color: state.filterTypeSelected == FilterType.search
+                              ? AppColors.white
+                              : AppColors.grey3,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -77,7 +84,14 @@ class FilterSelector extends StatelessWidget {
                         ),
                       ),
                       alignment: Alignment.center,
-                      child: const Text('Type'),
+                      child: Text(
+                        'Type',
+                        style: TextStyle(
+                          color: state.filterTypeSelected == FilterType.type
+                              ? AppColors.white
+                              : AppColors.grey3,
+                        ),
+                      ),
                     ),
                   ),
                 ),

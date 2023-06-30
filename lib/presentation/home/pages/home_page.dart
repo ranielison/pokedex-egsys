@@ -13,6 +13,8 @@ import 'package:pokedex_egsys/presentation/home/widgets/filter_selector.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/pokemon_card.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/search_bar.dart';
 
+//TODO: Limpar filtros sempre que alternar entre um e outro
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -124,6 +126,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         DropdownButton(
                                           isExpanded: true,
                                           value: state.pokemonTypeSelected,
+                                          style: const TextStyle(
+                                            color: AppColors.grey3,
+                                            fontSize: 16,
+                                          ),
                                           items: state.types!
                                               .map(
                                                 (item) => DropdownMenuItem(
