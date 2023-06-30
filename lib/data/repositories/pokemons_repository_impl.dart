@@ -72,16 +72,6 @@ class PokemonsRepositoryImpl implements PokemonsRepository {
         List<Pokemon> pokemons = pokemonsResponse.pokemons!
             .map((item) => Pokemon(name: item))
             .toList();
-        //TODO: Resolver esse problema
-        // for (var item in pokemonsResponse.pokemons!) {
-        //   final pokemon =
-        //       await pokemonsRemoteDatasource.getPokemonByIdentify(item);
-        //   pokemon.fold((l) {}, (r) {
-        //     print('ADDING POKEMON ${r.name}');
-        //     pokemons.add(r.toEntity());
-
-        //   });
-        // }
         return Right(pokemons);
       },
     );

@@ -183,11 +183,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                                 .toList(),
                                   ),
                           ),
-                          if (state.loadingMore)
-                            const SpinKitThreeBounce(
-                              color: Colors.red,
-                              size: 25,
-                            ),
                         ],
                       ),
                     ),
@@ -200,22 +195,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           return Container();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          _controller.reverse();
-          await Future.delayed(const Duration(milliseconds: 700));
-          _controller.forward();
-          _homeBloc.add(GetRandomPokemonEvent());
+      floatingActionButton: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state is HomeSuccess) {
+            return FloatingActionButton(
+              onPressed: () async {
+                if (state.loadingMore) return;
+                _controller.reverse();
+                await Future.delayed(const Duration(milliseconds: 700));
+                _controller.forward();
+                _homeBloc.add(GetRandomPokemonEvent());
+              },
+              backgroundColor: AppColors.white,
+              child: state.loadingMore
+                  ? const SpinKitCircle(color: Colors.red)
+                  : Lottie.asset(
+                      'assets/animations/pokeball.json',
+                      controller: _controller,
+                      onLoaded: (composition) {
+                        _controller
+                          ..duration = composition.duration
+                          ..forward();
+                      },
+                    ),
+            );
+          }
+
+          return Container();
         },
-        child: Lottie.asset(
-          'assets/animations/pokeball.json',
-          controller: _controller,
-          onLoaded: (composition) {
-            _controller
-              ..duration = composition.duration
-              ..forward();
-          },
-        ),
       ),
     );
   }
