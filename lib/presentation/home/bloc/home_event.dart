@@ -34,6 +34,8 @@ class PrepareStateEvent extends HomeEvent {}
 
 class ToggleEnabledFilterEvent extends HomeEvent {}
 
+class ResetFiltersEvent extends HomeEvent {}
+
 class SelectTypeEvent extends HomeEvent {
   final FilterType type;
 

@@ -4,6 +4,7 @@ import 'package:pokedex_egsys/core/di/injection_container.dart';
 import 'package:pokedex_egsys/core/routes/app_router.dart';
 import 'package:pokedex_egsys/core/routes/constants_routes.dart';
 import 'package:pokedex_egsys/core/theme/app_colors.dart';
+import 'package:pokedex_egsys/presentation/details/bloc/details_bloc.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
 
 class App extends StatelessWidget {
@@ -19,6 +20,7 @@ class App extends StatelessWidget {
               PrepareStateEvent(),
             ),
         ),
+        BlocProvider<DetailsBloc>(create: (_) => sl<DetailsBloc>()),
       ],
       child: MaterialApp(
         title: 'Pokédex Egsys',

@@ -33,6 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       data.fold((l) {
         if (l is ServerFailure) {}
       }, (r) {
+        r.insert(0, "all");
         emit(
           HomeSuccess(
             pokemons: const [],
@@ -56,8 +57,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       final data = await getPokemons.call(
         GetPokemonsParams(
-          limit: 6,
-          offset: page > 1 ? (page - 1) * 6 : 0,
+          limit: 8,
+          offset: page > 1 ? (page - 1) * 8 : 0,
         ),
       );
 
@@ -81,6 +82,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       pokemon.fold((l) {
         if (l is ServerFailure) {}
       }, (r) {
+        emit((state as HomeSuccess).copyWith(randomPokemonSelected: r));
         debugPrint('POKEMON: ${r.name}');
       });
     });
@@ -105,6 +107,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(
         (state as HomeSuccess).copyWith(
           enabledFilters: !(state as HomeSuccess).enabledFilters,
+        ),
+      );
+    });
+
+    on<ResetFiltersEvent>((event, emit) async {
+      emit(
+        (state as HomeSuccess).copyWith(
+          filteredPokemons: [],
+          pokemonTypeSelected: 'none',
         ),
       );
     });

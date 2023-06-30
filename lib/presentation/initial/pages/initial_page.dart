@@ -22,7 +22,7 @@ class InitialPage extends StatelessWidget {
                     color: Colors.red,
                     alignment: Alignment.center,
                     child: const Text(
-                      'Pokedex\n By egSYS',
+                      'Pokedex\n EgSYS',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 50,
@@ -35,6 +35,17 @@ class InitialPage extends StatelessWidget {
                   Container(
                     height: size.height * 0.5,
                     color: Colors.white,
+                    alignment: Alignment.bottomCenter,
+                    child: const Text(
+                      'Developed by\n Raniélison',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontFamily: 'Pokemon',
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),

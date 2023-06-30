@@ -25,6 +25,7 @@ class HomeSuccess extends HomeState {
   final String? pokemonTypeSelected;
   final List<String>? types;
   final FilterType? filterTypeSelected;
+  final Pokemon? randomPokemonSelected;
 
   const HomeSuccess({
     required this.pokemons,
@@ -35,6 +36,7 @@ class HomeSuccess extends HomeState {
     this.pokemonTypeSelected,
     this.types,
     this.filterTypeSelected = FilterType.search,
+    this.randomPokemonSelected,
   });
 
   HomeSuccess copyWith({
@@ -46,6 +48,7 @@ class HomeSuccess extends HomeState {
     String? pokemonTypeSelected,
     List<String>? types,
     FilterType? filterTypeSelected,
+    Pokemon? randomPokemonSelected,
   }) {
     return HomeSuccess(
       page: page ?? this.page,
@@ -56,6 +59,7 @@ class HomeSuccess extends HomeState {
       pokemonTypeSelected: pokemonTypeSelected ?? this.pokemonTypeSelected,
       types: types ?? this.types,
       filterTypeSelected: filterTypeSelected ?? this.filterTypeSelected,
+      randomPokemonSelected: randomPokemonSelected,
     );
   }
 
@@ -69,5 +73,6 @@ class HomeSuccess extends HomeState {
         pokemonTypeSelected,
         types,
         filterTypeSelected,
+        randomPokemonSelected,
       ];
 }

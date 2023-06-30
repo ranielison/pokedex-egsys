@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pokedex_egsys/core/routes/constants_routes.dart';
 import 'package:pokedex_egsys/core/theme/app_colors.dart';
 import 'package:pokedex_egsys/core/theme/text_syles.dart';
 import 'package:pokedex_egsys/core/widgets/default_app_bar.dart';
 import 'package:pokedex_egsys/core/widgets/default_screen.dart';
+import 'package:pokedex_egsys/presentation/details/pages/details_page.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/filter_selector.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/pokemon_card.dart';
@@ -41,44 +43,56 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey8,
-      body: DefaultScreen(
-        child: Column(
-          children: [
-            const DefaultAppBar(
-              title: 'My Pokedex',
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  if (state is HomeSuccess) {
-                    return SafeArea(
+      body: BlocConsumer<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is HomeSuccess && state.randomPokemonSelected != null) {
+            Navigator.of(context).pushNamed(
+              DETAILS_ROUTE,
+              arguments: DetailsPageArguments(
+                pokemon: state.randomPokemonSelected!,
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          if (state is HomeSuccess) {
+            return DefaultScreen(
+              child: Column(
+                children: [
+                  DefaultAppBar(
+                    title: 'My Pokedex',
+                    actions: [
+                      if (state.enabledFilters)
+                        IconButton(
+                          onPressed: () {
+                            _homeBloc.add(
+                              ToggleEnabledFilterEvent(),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.filter_alt_off,
+                            color: AppColors.grey3,
+                          ),
+                        ),
+                      if (!state.enabledFilters)
+                        IconButton(
+                          onPressed: () {
+                            _homeBloc.add(
+                              ToggleEnabledFilterEvent(),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.filter_alt,
+                            color: AppColors.grey3,
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Expanded(
+                    child: SafeArea(
                       child: Column(
                         children: [
-                          if (state.enabledFilters)
-                            IconButton(
-                              onPressed: () {
-                                _homeBloc.add(
-                                  ToggleEnabledFilterEvent(),
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.filter_alt_off,
-                                color: AppColors.grey3,
-                              ),
-                            ),
-                          if (!state.enabledFilters)
-                            IconButton(
-                              onPressed: () {
-                                _homeBloc.add(
-                                  ToggleEnabledFilterEvent(),
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.filter_alt,
-                                color: AppColors.grey3,
-                              ),
-                            ),
                           AnimatedSize(
                             duration: const Duration(milliseconds: 500),
                             child: state.enabledFilters
@@ -92,6 +106,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           hint: 'Busque por nome ou id',
                                           controller: _searchBarController,
                                           onClean: () {
+                                            _homeBloc.add(ResetFiltersEvent());
                                             setState(() {});
                                           },
                                           onChange: (value) {
@@ -119,9 +134,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                               )
                                               .toList(),
                                           onChanged: (String? value) {
-                                            _homeBloc.add(
-                                              GetPokemonsByTypeEvent(value!),
-                                            );
+                                            if (value == 'all') {
+                                              _homeBloc.add(
+                                                ResetFiltersEvent(),
+                                              );
+                                            } else {
+                                              _homeBloc.add(
+                                                GetPokemonsByTypeEvent(value!),
+                                              );
+                                            }
                                           },
                                         )
                                     ],
@@ -169,15 +190,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                         ],
                       ),
-                    );
-                  }
-
-                  return Container();
-                },
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
+            );
+          }
+
+          return Container();
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

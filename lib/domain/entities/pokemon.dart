@@ -22,6 +22,7 @@ class Pokemon {
   });
 
   String? get pokemonImageUrl {
+    if (sprites == null) return null;
     List<String> spritesUrl = [];
     if (sprites?.other != null) {
       if (sprites!.other!.home != null) {

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_egsys/core/routes/constants_routes.dart';
 import 'package:pokedex_egsys/core/theme/app_colors.dart';
 import 'package:pokedex_egsys/domain/entities/pokemon.dart';
+import 'package:pokedex_egsys/presentation/details/bloc/details_bloc.dart';
 import 'package:pokedex_egsys/presentation/details/pages/details_page.dart';
 
 class PokemonCard extends StatelessWidget {
@@ -16,10 +18,14 @@ class PokemonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        context.read<DetailsBloc>().add(ResetStateEvent());
         Navigator.pushNamed(
           context,
           DETAILS_ROUTE,
-          arguments: DetailsPageArguments(pokemon: pokemon),
+          arguments: DetailsPageArguments(
+            pokemon: pokemon.id != null ? pokemon : null,
+            identify: pokemon.name,
+          ),
         );
       },
       child: Card(

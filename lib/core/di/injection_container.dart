@@ -8,6 +8,7 @@ import 'package:pokedex_egsys/domain/usecases/get_pokemons.dart';
 import 'package:pokedex_egsys/domain/usecases/get_pokemons_by_type.dart';
 import 'package:pokedex_egsys/domain/usecases/get_random_pokemon.dart';
 import 'package:pokedex_egsys/domain/usecases/searh_pokemon_by_name.dart';
+import 'package:pokedex_egsys/presentation/details/bloc/details_bloc.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
 
 GetIt sl = GetIt.instance;
@@ -54,6 +55,12 @@ void bloc() {
       searchPokemonByName: sl(),
       getAllTypes: sl(),
       getPokemonsByType: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => DetailsBloc(
+      searchPokemonByName: sl(),
     ),
   );
 }
