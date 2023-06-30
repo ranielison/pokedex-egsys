@@ -7,6 +7,7 @@ import 'package:pokedex_egsys/core/theme/text_syles.dart';
 import 'package:pokedex_egsys/core/widgets/default_app_bar.dart';
 import 'package:pokedex_egsys/core/widgets/default_screen.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
+import 'package:pokedex_egsys/presentation/home/widgets/filter_selector.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/pokemon_card.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/search_bar.dart';
 
@@ -54,27 +55,75 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     return SafeArea(
                       child: Column(
                         children: [
+                          if (state.enabledFilters)
+                            IconButton(
+                              onPressed: () {
+                                _homeBloc.add(
+                                  ToggleEnabledFilterEvent(),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.filter_alt_off,
+                                color: AppColors.grey3,
+                              ),
+                            ),
+                          if (!state.enabledFilters)
+                            IconButton(
+                              onPressed: () {
+                                _homeBloc.add(
+                                  ToggleEnabledFilterEvent(),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.filter_alt,
+                                color: AppColors.grey3,
+                              ),
+                            ),
                           AnimatedSize(
                             duration: const Duration(milliseconds: 500),
-                            child: !state.enabledFilters
+                            child: state.enabledFilters
                                 ? Column(
                                     children: [
-                                      SearchInput(
-                                        hint: 'Busque por nome ou id',
-                                        controller: _searchBarController,
-                                        onClean: () {
-                                          setState(() {});
-                                        },
-                                        onChange: (value) {
-                                          setState(() {
+                                      const FilterSelector(),
+                                      const SizedBox(height: 8),
+                                      if (state.filterTypeSelected ==
+                                          FilterType.search)
+                                        SearchInput(
+                                          hint: 'Busque por nome ou id',
+                                          controller: _searchBarController,
+                                          onClean: () {
+                                            setState(() {});
+                                          },
+                                          onChange: (value) {
+                                            setState(() {
+                                              _homeBloc.add(
+                                                SearchPokemonsByNameEvent(
+                                                  value,
+                                                ),
+                                              );
+                                            });
+                                          },
+                                        ),
+                                      if (state.filterTypeSelected ==
+                                          FilterType.type)
+                                        DropdownButton(
+                                          isExpanded: true,
+                                          value: state.pokemonTypeSelected,
+                                          items: state.types!
+                                              .map(
+                                                (item) => DropdownMenuItem(
+                                                  value: item,
+                                                  child:
+                                                      Text(item.toUpperCase()),
+                                                ),
+                                              )
+                                              .toList(),
+                                          onChanged: (String? value) {
                                             _homeBloc.add(
-                                              SearchPokemonsByName(
-                                                value,
-                                              ),
+                                              GetPokemonsByTypeEvent(value!),
                                             );
-                                          });
-                                        },
-                                      ),
+                                          },
+                                        )
                                     ],
                                   )
                                 : const SizedBox(),

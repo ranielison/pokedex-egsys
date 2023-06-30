@@ -34,6 +34,7 @@ class DetailsPage extends StatelessWidget {
                 imageUrl: args.pokemon.pokemonImageUrl,
               ),
             ),
+            Text('Type: ${args.pokemon.types!.first.type!.name}'),
           ],
         ),
       ),

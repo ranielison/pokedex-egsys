@@ -1,10 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pokedex_egsys/core/error/failures.dart';
 import 'package:pokedex_egsys/core/usecases/usecase.dart';
 import 'package:pokedex_egsys/domain/entities/pokemon.dart';
 import 'package:pokedex_egsys/domain/usecases/get_all_types.dart';
 import 'package:pokedex_egsys/domain/usecases/get_pokemons.dart';
+import 'package:pokedex_egsys/domain/usecases/get_pokemons_by_type.dart';
 import 'package:pokedex_egsys/domain/usecases/get_random_pokemon.dart';
 import 'package:pokedex_egsys/domain/usecases/searh_pokemon_by_name.dart';
 
@@ -16,12 +18,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetRandomPokemon getRandomPokemon;
   final SearchPokemonByName searchPokemonByName;
   final GetAllTypes getAllTypes;
+  final GetPokemonsByType getPokemonsByType;
 
   HomeBloc({
     required this.getPokemons,
     required this.getRandomPokemon,
     required this.searchPokemonByName,
     required this.getAllTypes,
+    required this.getPokemonsByType,
   }) : super(HomeInitial()) {
     on<PrepareStateEvent>((event, emit) async {
       final data = await getAllTypes(NoParams());
@@ -35,6 +39,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             filteredPokemons: const [],
             enabledFilters: false,
             types: r,
+            pokemonTypeSelected: r.first,
           ),
         );
 
@@ -76,11 +81,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       pokemon.fold((l) {
         if (l is ServerFailure) {}
       }, (r) {
-        print('POKEMON: ${r.name}');
+        debugPrint('POKEMON: ${r.name}');
       });
     });
 
-    on<SearchPokemonsByName>((event, emit) async {
+    on<SearchPokemonsByNameEvent>((event, emit) async {
       final pokemon = await searchPokemonByName.call(event.name);
       if (event.name.isEmpty) return;
       pokemon.fold((l) {
@@ -89,6 +94,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       }, (r) {
         emit((state as HomeSuccess).copyWith(filteredPokemons: [r]));
+      });
+    });
+
+    on<SelectTypeEvent>((event, emit) async {
+      emit((state as HomeSuccess).copyWith(filterTypeSelected: event.type));
+    });
+
+    on<ToggleEnabledFilterEvent>((event, emit) async {
+      emit(
+        (state as HomeSuccess).copyWith(
+          enabledFilters: !(state as HomeSuccess).enabledFilters,
+        ),
+      );
+    });
+
+    on<GetPokemonsByTypeEvent>((event, emit) async {
+      final pokemon = await getPokemonsByType.call(event.type);
+
+      pokemon.fold((l) {
+        if (l is ServerFailure) {
+          emit((state as HomeSuccess).copyWith(filteredPokemons: []));
+        }
+      }, (r) {
+        emit(
+          (state as HomeSuccess).copyWith(
+            filteredPokemons: r,
+            pokemonTypeSelected: event.type,
+          ),
+        );
       });
     });
   }

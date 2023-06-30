@@ -4,12 +4,12 @@ import 'package:pokedex_egsys/core/usecases/usecase.dart';
 import 'package:pokedex_egsys/domain/entities/pokemon.dart';
 import 'package:pokedex_egsys/domain/repositories/pokemons_repository.dart';
 
-class GetRandomPokemon extends UseCase<Pokemon, NoParams> {
+class GetPokemonsByType extends UseCase<List<Pokemon>, String> {
   final PokemonsRepository _repo;
 
-  GetRandomPokemon(this._repo);
+  GetPokemonsByType(this._repo);
 
   @override
-  Future<Either<Failure, Pokemon>> call(NoParams params) =>
-      _repo.getRandomPokemon();
+  Future<Either<Failure, List<Pokemon>>> call(String params) =>
+      _repo.searchPokemonByType(params);
 }
