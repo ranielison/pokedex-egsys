@@ -1,7 +1,9 @@
-class GetAllTypesResponse {
+import 'package:equatable/equatable.dart';
+
+class GetAllTypesResponse extends Equatable {
   final List<String>? types;
 
-  GetAllTypesResponse({
+  const GetAllTypesResponse({
     this.types,
   });
 
@@ -22,4 +24,7 @@ class GetAllTypesResponse {
 
     return data;
   }
+
+  @override
+  List<Object?> get props => [types];
 }

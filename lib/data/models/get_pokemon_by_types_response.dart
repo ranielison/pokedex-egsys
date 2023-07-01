@@ -1,7 +1,9 @@
-class GetPokemonsByTypeResponse {
+import 'package:equatable/equatable.dart';
+
+class GetPokemonsByTypeResponse extends Equatable {
   final List<String>? pokemons;
 
-  GetPokemonsByTypeResponse({required this.pokemons});
+  const GetPokemonsByTypeResponse({required this.pokemons});
 
   static GetPokemonsByTypeResponse fromJson(Map<String, dynamic> json) {
     final dataList = json['pokemon'] != null
@@ -23,4 +25,7 @@ class GetPokemonsByTypeResponse {
 
     return data;
   }
+
+  @override
+  List<Object?> get props => [pokemons];
 }

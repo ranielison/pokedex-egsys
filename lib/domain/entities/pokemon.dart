@@ -1,15 +1,17 @@
-class Pokemon {
-  int? id;
-  String? name;
-  int? height;
-  int? weight;
-  int? order;
-  int? baseExperience;
-  Sprites? sprites;
-  List<Type>? types;
-  List<Ability>? abilities;
+import 'package:equatable/equatable.dart';
 
-  Pokemon({
+class Pokemon extends Equatable {
+  final int? id;
+  final String? name;
+  final int? height;
+  final int? weight;
+  final int? order;
+  final int? baseExperience;
+  final Sprites? sprites;
+  final List<Type>? types;
+  final List<Ability>? abilities;
+
+  const Pokemon({
     this.id,
     this.name,
     this.height,
@@ -45,28 +47,48 @@ class Pokemon {
     }
     return spritesUrl.first;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        height,
+        weight,
+        order,
+        baseExperience,
+        sprites,
+        types,
+        abilities,
+      ];
 }
 
-class Ability {
-  String? name;
-  bool? isHidden;
-  int? slot;
+class Ability extends Equatable {
+  final String? name;
+  final bool? isHidden;
+  final int? slot;
 
-  Ability({this.name, this.isHidden, this.slot});
+  const Ability({this.name, this.isHidden, this.slot});
+
+  @override
+  List<Object?> get props => [
+        name,
+        isHidden,
+        slot,
+      ];
 }
 
-class Sprites {
-  String? backDefault;
-  String? backFemale;
-  String? backShiny;
-  String? backShinyFemale;
-  String? frontDefault;
-  String? frontFemale;
-  String? frontShiny;
-  String? frontShinyFemale;
-  Other? other;
+class Sprites extends Equatable {
+  final String? backDefault;
+  final String? backFemale;
+  final String? backShiny;
+  final String? backShinyFemale;
+  final String? frontDefault;
+  final String? frontFemale;
+  final String? frontShiny;
+  final String? frontShinyFemale;
+  final Other? other;
 
-  Sprites({
+  const Sprites({
     this.backDefault,
     this.backFemale,
     this.backShiny,
@@ -77,22 +99,38 @@ class Sprites {
     this.frontShinyFemale,
     this.other,
   });
+
+  @override
+  List<Object?> get props => [
+        backDefault,
+        backFemale,
+        backShiny,
+        backShinyFemale,
+        frontDefault,
+        frontFemale,
+        frontShiny,
+        frontShinyFemale,
+        other,
+      ];
 }
 
-class Other {
-  Home? home;
-  OfficialArtwork? officialArtwork;
+class Other extends Equatable {
+  final Home? home;
+  final OfficialArtwork? officialArtwork;
 
-  Other({this.home, this.officialArtwork});
+  const Other({this.home, this.officialArtwork});
+
+  @override
+  List<Object?> get props => [home, officialArtwork];
 }
 
-class Home {
-  String? frontDefault;
-  String? frontFemale;
-  String? frontShiny;
-  String? frontShinyFemale;
+class Home extends Equatable {
+  final String? frontDefault;
+  final String? frontFemale;
+  final String? frontShiny;
+  final String? frontShinyFemale;
 
-  Home({
+  const Home({
     this.frontDefault,
     this.frontFemale,
     this.frontShiny,
@@ -112,13 +150,21 @@ class Home {
     }
     return sprites;
   }
+
+  @override
+  List<Object?> get props => [
+        frontDefault,
+        frontFemale,
+        frontShiny,
+        frontShinyFemale,
+      ];
 }
 
-class OfficialArtwork {
-  String? frontDefault;
-  String? frontShiny;
+class OfficialArtwork extends Equatable {
+  final String? frontDefault;
+  final String? frontShiny;
 
-  OfficialArtwork({this.frontDefault, this.frontShiny});
+  const OfficialArtwork({this.frontDefault, this.frontShiny});
 
   List<String> spritesInOrder() {
     List<String> sprites = [];
@@ -131,11 +177,17 @@ class OfficialArtwork {
     }
     return sprites;
   }
+
+  @override
+  List<Object?> get props => [frontDefault, frontShiny];
 }
 
-class Type {
-  int? slot;
-  String? name;
+class Type extends Equatable {
+  final int? slot;
+  final String? name;
 
-  Type({this.slot, this.name});
+  const Type({this.slot, this.name});
+
+  @override
+  List<Object?> get props => [slot, name];
 }

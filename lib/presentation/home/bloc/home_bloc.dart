@@ -100,7 +100,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<SelectTypeEvent>((event, emit) async {
-      emit((state as HomeSuccess).copyWith(filterTypeSelected: event.type));
+      emit((state as HomeSuccess).copyWith(
+        filterTypeSelected: event.type,
+      ));
     });
 
     on<ToggleEnabledFilterEvent>((event, emit) async {
@@ -109,8 +111,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           enabledFilters: !(state as HomeSuccess).enabledFilters,
           filteredPokemons: [],
           pokemonTypeSelected: 'all',
-          
-
         ),
       );
     });

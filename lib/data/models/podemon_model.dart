@@ -1,17 +1,18 @@
+import 'package:equatable/equatable.dart';
 import 'package:pokedex_egsys/domain/entities/pokemon.dart';
 
-class PokemonModel {
-  int? id;
-  String? name;
-  int? height;
-  int? weight;
-  int? order;
-  int? baseExperience;
-  SpritesModel? sprites;
-  List<TypeModel>? types;
-  List<AbilityModel>? abilities;
+class PokemonModel extends Equatable {
+  final int? id;
+  final String? name;
+  final int? height;
+  final int? weight;
+  final int? order;
+  final int? baseExperience;
+  final SpritesModel? sprites;
+  final List<TypeModel>? types;
+  final List<AbilityModel>? abilities;
 
-  PokemonModel({
+  const PokemonModel({
     this.id,
     this.name,
     this.height,
@@ -82,14 +83,31 @@ class PokemonModel {
     }
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        height,
+        weight,
+        order,
+        baseExperience,
+        sprites,
+        types,
+        abilities,
+      ];
 }
 
-class AbilityModel {
-  String? name;
-  bool? isHidden;
-  int? slot;
+class AbilityModel extends Equatable {
+  final String? name;
+  final bool? isHidden;
+  final int? slot;
 
-  AbilityModel({this.name, this.isHidden, this.slot});
+  const AbilityModel({
+    this.name,
+    this.isHidden,
+    this.slot,
+  });
 
   Ability toEntity() => Ability(
         name: name,
@@ -112,20 +130,27 @@ class AbilityModel {
     data['slot'] = abilityModel.slot;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        name,
+        isHidden,
+        slot,
+      ];
 }
 
-class SpritesModel {
-  String? backDefault;
-  String? backFemale;
-  String? backShiny;
-  String? backShinyFemale;
-  String? frontDefault;
-  String? frontFemale;
-  String? frontShiny;
-  String? frontShinyFemale;
-  OtherModel? other;
+class SpritesModel extends Equatable {
+  final String? backDefault;
+  final String? backFemale;
+  final String? backShiny;
+  final String? backShinyFemale;
+  final String? frontDefault;
+  final String? frontFemale;
+  final String? frontShiny;
+  final String? frontShinyFemale;
+  final OtherModel? other;
 
-  SpritesModel({
+  const SpritesModel({
     this.backDefault,
     this.backFemale,
     this.backShiny,
@@ -179,13 +204,26 @@ class SpritesModel {
 
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        backDefault,
+        backFemale,
+        backShiny,
+        backShinyFemale,
+        frontDefault,
+        frontFemale,
+        frontShiny,
+        frontShinyFemale,
+        other,
+      ];
 }
 
-class OtherModel {
-  HomeModel? home;
-  OfficialArtworkModel? officialArtwork;
+class OtherModel extends Equatable {
+  final HomeModel? home;
+  final OfficialArtworkModel? officialArtwork;
 
-  OtherModel({this.home, this.officialArtwork});
+  const OtherModel({this.home, this.officialArtwork});
 
   Other toEntity() => Other(
         home: home?.toEntity(),
@@ -214,15 +252,18 @@ class OtherModel {
     }
     return data;
   }
+
+  @override
+  List<Object?> get props => [home, officialArtwork];
 }
 
-class HomeModel {
-  String? frontDefault;
-  String? frontFemale;
-  String? frontShiny;
-  String? frontShinyFemale;
+class HomeModel extends Equatable {
+  final String? frontDefault;
+  final String? frontFemale;
+  final String? frontShiny;
+  final String? frontShinyFemale;
 
-  HomeModel({
+  const HomeModel({
     this.frontDefault,
     this.frontFemale,
     this.frontShiny,
@@ -253,13 +294,21 @@ class HomeModel {
     data['front_shiny_female'] = homeModel.frontShinyFemale;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        frontDefault,
+        frontFemale,
+        frontShiny,
+        frontShinyFemale,
+      ];
 }
 
-class OfficialArtworkModel {
-  String? frontDefault;
-  String? frontShiny;
+class OfficialArtworkModel extends Equatable {
+  final String? frontDefault;
+  final String? frontShiny;
 
-  OfficialArtworkModel({this.frontDefault, this.frontShiny});
+  const OfficialArtworkModel({this.frontDefault, this.frontShiny});
 
   OfficialArtwork toEntity() => OfficialArtwork(
         frontDefault: frontDefault,
@@ -280,13 +329,16 @@ class OfficialArtworkModel {
     data['front_shiny'] = officialArtworkModel.frontShiny;
     return data;
   }
+
+  @override
+  List<Object?> get props => [frontDefault, frontShiny];
 }
 
-class TypeModel {
-  int? slot;
-  String? name;
+class TypeModel extends Equatable {
+  final int? slot;
+  final String? name;
 
-  TypeModel({this.slot, this.name});
+  const TypeModel({this.slot, this.name});
 
   Type toEntity() => Type(
         slot: slot,
@@ -308,4 +360,7 @@ class TypeModel {
     }
     return data;
   }
+
+  @override
+  List<Object?> get props => [slot, name];
 }
