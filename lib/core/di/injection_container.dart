@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pokedex_egsys/core/api/dio_client.dart';
 import 'package:pokedex_egsys/data/datasources/pokemons_remote_datasource.dart';
@@ -16,6 +17,15 @@ GetIt sl = GetIt.instance;
 Future<void> init({bool isUnitTest = false}) async {
   /// For unit testing only
   if (isUnitTest) {
+    WidgetsFlutterBinding.ensureInitialized();
+    sl.reset();
+    // ignore: invalid_use_of_visible_for_testing_member
+
+    sl.registerSingleton<DioClient>(DioClient(isUnitTest: true));
+    dataSources();
+    repositories();
+    useCase();
+    bloc();
   } else {
     sl.registerSingleton<DioClient>(DioClient());
     dataSources();
