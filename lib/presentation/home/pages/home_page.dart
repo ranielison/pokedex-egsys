@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           _searchBarController.clear();
                                         },
                                       ),
-                                      const SizedBox(height: 8),
+                                      const SizedBox(height: 12),
                                       if (state.filterTypeSelected ==
                                           FilterType.search)
                                         SearchInput(

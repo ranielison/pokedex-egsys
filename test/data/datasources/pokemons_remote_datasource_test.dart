@@ -38,7 +38,9 @@ void main() {
       final decode = json.decode(fixture('pokemons_success_response.json'));
 
       dioAdapter.onGet(
-        '/pomekon',
+        getPokemonsParams.limit != null && getPokemonsParams.offset != null
+            ? '/pokemon?limit=${getPokemonsParams.limit}&offset=${getPokemonsParams.offset}'
+            : '/pokemon',
         (server) => server.reply(
           200,
           decode,
@@ -60,7 +62,9 @@ void main() {
       () async {
         /// arrange
         dioAdapter.onPost(
-          '/pokemon',
+          getPokemonsParams.limit != null && getPokemonsParams.offset != null
+              ? '/pokemon?limit=${getPokemonsParams.limit}&offset=${getPokemonsParams.offset}'
+              : '/pokemon',
           (server) => server.reply(
             400,
             {},
