@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_egsys/core/theme/app_colors.dart';
+import 'package:pokedex_egsys/core/utils/debouncer.dart';
 
 class SearchInput extends StatefulWidget {
   final String hint;
@@ -25,6 +26,8 @@ class SearchInput extends StatefulWidget {
 
 class _SearchInputState extends State<SearchInput>
     with TickerProviderStateMixin {
+  final _debouncer = Debouncer(milliseconds: 500);
+
   @override
   Widget build(BuildContext context) {
     return AnimatedSize(
@@ -32,13 +35,14 @@ class _SearchInputState extends State<SearchInput>
       child: SizedBox(
         height: 50,
         child: TextFormField(
-          //inputFormatters: widget.mask == null ? null : [widget.mask!],
           onTap: widget.onTap as void Function()?,
           controller: widget.controller,
           onChanged: (value) {
-            setState(() {
-              widget.onChange?.call(value);
-            });
+            _debouncer.run(
+              () => setState(() {
+                widget.onChange?.call(value);
+              }),
+            );
           },
           cursorColor: AppColors.grey3,
           cursorWidth: 1,

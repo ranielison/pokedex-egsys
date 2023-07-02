@@ -13,8 +13,6 @@ import 'package:pokedex_egsys/presentation/home/widgets/filter_selector.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/pokemon_card.dart';
 import 'package:pokedex_egsys/presentation/home/widgets/search_bar.dart';
 
-//TODO: Limpar filtros sempre que alternar entre um e outro
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -100,7 +98,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: state.enabledFilters
                                 ? Column(
                                     children: [
-                                      const FilterSelector(),
+                                      FilterSelector(
+                                        onChangeFilter: () {
+                                          _searchBarController.clear();
+                                        },
+                                      ),
                                       const SizedBox(height: 8),
                                       if (state.filterTypeSelected ==
                                           FilterType.search)

@@ -36,13 +36,12 @@ void main() {
         () async {
       /// arrange
       final decode = json.decode(fixture('pokemons_success_response.json'));
-      print(decode);
 
       dioAdapter.onGet(
         '/pomekon',
         (server) => server.reply(
           200,
-          json.decode(fixture('pokemons_success_response.json')),
+          decode,
         ),
       );
 

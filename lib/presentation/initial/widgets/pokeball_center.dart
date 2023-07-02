@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_egsys/core/routes/constants_routes.dart';
+import 'package:pokedex_egsys/core/theme/text_syles.dart';
 
 class PokeballCenter extends StatelessWidget {
   const PokeballCenter({super.key});
@@ -19,9 +20,13 @@ class PokeballCenter extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () => Navigator.pushNamed(context, HOME_ROUTE),
-          child: const CircleAvatar(
+          child: CircleAvatar(
             radius: 35,
             backgroundColor: Colors.white,
+            child: Text(
+              'Press',
+              style: TextStyles.h5Style.copyWith(color: Colors.black),
+            ),
           ),
         ),
       ],

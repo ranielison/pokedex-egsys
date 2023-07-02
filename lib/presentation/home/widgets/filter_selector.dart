@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_egsys/core/theme/app_colors.dart';
+import 'package:pokedex_egsys/core/theme/text_syles.dart';
 import 'package:pokedex_egsys/presentation/home/bloc/home_bloc.dart';
 
 class FilterSelector extends StatelessWidget {
-  const FilterSelector({super.key});
+  final Function()? onChangeFilter;
+
+  const FilterSelector({super.key, this.onChangeFilter});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,6 @@ class FilterSelector extends StatelessWidget {
           return Container(
             height: 40,
             decoration: BoxDecoration(
-              //color: AppColors.grey7,
               borderRadius: BorderRadius.circular(
                 8,
               ),
@@ -24,6 +26,7 @@ class FilterSelector extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      onChangeFilter?.call();
                       context.read<HomeBloc>().add(
                             const SelectTypeEvent(
                               FilterType.search,
@@ -49,11 +52,10 @@ class FilterSelector extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'Name/Id',
-                        style: TextStyle(
-                          color: state.filterTypeSelected == FilterType.search
-                              ? AppColors.white
-                              : AppColors.grey3,
-                        ),
+                        style: TextStyles.h4Style.copyWith(
+                            color: state.filterTypeSelected == FilterType.search
+                                ? AppColors.white
+                                : AppColors.grey3),
                       ),
                     ),
                   ),
@@ -61,6 +63,7 @@ class FilterSelector extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      onChangeFilter?.call();
                       context.read<HomeBloc>().add(
                             const SelectTypeEvent(
                               FilterType.type,
@@ -86,7 +89,7 @@ class FilterSelector extends StatelessWidget {
                       alignment: Alignment.center,
                       child: Text(
                         'Type',
-                        style: TextStyle(
+                        style: TextStyles.h4Style.copyWith(
                           color: state.filterTypeSelected == FilterType.type
                               ? AppColors.white
                               : AppColors.grey3,

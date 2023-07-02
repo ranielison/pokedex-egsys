@@ -102,6 +102,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SelectTypeEvent>((event, emit) async {
       emit((state as HomeSuccess).copyWith(
         filterTypeSelected: event.type,
+        filteredPokemons: [],
+        pokemonTypeSelected: 'all',
       ));
     });
 
