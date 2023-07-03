@@ -137,5 +137,3 @@ Para o desenvolvimento desta aplicação, foi utilizada a api oficial [Pokeapi](
 - Durante o uso encontrei algumas limitações, por exemplo não tinha um endpoint direto para trazer os pokemons já com as imagens, então seria necessário fazer uma requisição para trazer os pokemons na listagem, e em seguida uma requisação para cada pokemon para trazer os detalhes do mesmo.
 
 - No filtro de pokemons por tipo, também ocorre que na response vem uma lista contendo todos os pokemons daquele tipo, onde cada item dessa lista contém apenas o nome do pokemon, logo ficaria muito custoso fazer uma requisição para cada um dos resultados, tendo em vista que podem ser muitos em alguns casos, então no caso dos resultados desse filtro, a listagem mostra os itens apenas com os nomes dos pokemons, e ao clicar em um deles é que é direcionado para a tela de detalhes mostrando mais informações sobre o pokemon.
-
-### APK para teste (Apenas Android)
