@@ -31,6 +31,7 @@ void main() {
       final result = await getAllTypes(NoParams());
 
       /// assert
+      verify(mockPokemonsRepository.getAllTypes());
       expect(Right(ilist(result.fold((l) => [], (r) => r))),
           (Right(ilist(typesList))));
     });
@@ -46,6 +47,7 @@ void main() {
       final result = await getAllTypes(NoParams());
 
       /// assert
+      verify(mockPokemonsRepository.getAllTypes());
       expect(result, equals(const Left(ServerFailure(''))));
     });
   });
