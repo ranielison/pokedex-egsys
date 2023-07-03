@@ -27,17 +27,21 @@ O aplicativo segue os padrões da Clean Architecture.
 
 A Aplicação é dividida em camadas, onde cada camada contem uma responsabilidade.
 
-Na pasta Core ficam arquivos de uso geral da aplicação.
+Temos uma pasta Core onde ficam arquivos de uso geral da aplicação e em seguida uma pasta para cada camada.
 
 Na camada Data ficam os **datasources**, **models** e as implementações dos repositórios.
 
 Na camada Domain ficam as **entities**, os **usecases** e as as interfaces dos repositórios.
 
-Na camada Presentation fica a parte das interfaces da **feature**, sendo dividida em **bloc**, **pages** e **widgets**.
+Na camada Presentation fica a parte das interfaces das **telas**, onde pra cada tela ou módulo tem uma pasta e cada uma dessas sendo dividida em **bloc**, **pages** e **widgets**.
 
 ### Core, api
 
 Cliente HTTP customizado, faz as chamadas à API. Usa configurações básicas para fazer as requisições: BaseURL, Headers, Authentication etc.
+
+### Core, di
+
+Configurações a respeito da injeção de dependências
 
 ### Core, error
 
@@ -50,6 +54,10 @@ Definição e configuração das rotas da aplicação.
 ### Core, theme
 
 Cores e estilos de texto padrões da aplicação.
+
+### Core, usecases
+
+Classe abstrata que define como um use case deve ser .
 
 ### Core, utils
 
@@ -97,6 +105,14 @@ Aqui ficam as páginas da aplicação. Geralmente cada página implementa uma **
 
 Aqui ficam os **widgets** ou componentes que são utilizados na aplicação. É uma boa prática separar trechos de códigos que representam um componente, que se repete dentro da página, em um arquivo separado, e chamá-lo na página principal. Isso melhora a legibilidade do código, reduzindo a redundância.
 
-## Versão do aplicativo
+## API Utilizada
 
-A versão do aplicativo está definida logo no início do arquivo `pubspec.yaml`.
+Para o desenvolvimento desta aplicação, foi utilizada a api oficial [Pokeapi](https://pokeapi.co/)
+
+### Dificuldades encontradas em relação a API
+
+- Durante o uso encontrei algumas limitações, por exemplo não tinha um endpoint direto para trazer os pokemons já com as imagens, então seria necessário fazer uma requisição para trazer os pokemons na listagem, e em seguida uma requisação para cada pokemon para trazer os detalhes do mesmo.
+
+- No filtro de pokemons por tipo, também ocorre que na response vem uma lista contendo todos os pokemons daquele tipo, onde cada item dessa lista contém apenas o nome do pokemon, logo ficaria muito custoso fazer uma requisição para cada um dos resultados, tendo em vista que podem ser muitos em alguns casos, então no caso dos resultados desse filtro, a listagem mostra os itens apenas com os nomes dos pokemons, e ao clicar em um deles é que é direcionado para a tela de detalhes mostrando mais informações sobre o pokemon.
+
+### APK para teste (Apenas Android)
