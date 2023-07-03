@@ -28,7 +28,6 @@ Rode os comandos abaixo.
 <p>
   <img src="/assets/screenshots/initial_screen.png?raw=true" alt="Home" width="200" height="400" />
   
-  
   <img src="/assets/screenshots/home_screen.png?raw=true" alt="Home" width="200" height="400" />
 
   <img src="/assets/screenshots/details.png?raw=true" alt="Home" width="200" height="400" />
