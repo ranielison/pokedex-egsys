@@ -23,13 +23,10 @@ Rode os comandos abaixo.
 
 ## Telas do app
 
-<img src="/assets/pokedex.gif?raw=true" alt="Pokedex" height="600" />
+## <img src="/assets/pokedex.gif?raw=true" alt="Pokedex" height="600" />
 
 <p>
-  <img src="/assets/home.jpg?raw=true" alt="Home" width="200" height="400" />
-  <img src="/assets/about.jpg?raw=true" alt="About" width="200" height="400" />
-  <img src="/assets/stat.jpg?raw=true" alt="Stat" width="200" height="400" />
-  <img src="/assets/evolution.jpg?raw=true" alt="Evolution" width="200" height="400" />
+  <img src="/assets/screenshots/home_screen.png?raw=true" alt="Home" width="200" height="400" />
 </p>
 
 ## Estrutura de pastas do projeto
