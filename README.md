@@ -27,10 +27,21 @@ Rode os comandos abaixo.
 
 <p>
   <img src="/assets/screenshots/initial_screen.png?raw=true" alt="Home" width="200" height="400" />
-  <em>Tela inicial</em>
+  
   
   <img src="/assets/screenshots/home_screen.png?raw=true" alt="Home" width="200" height="400" />
-  <em>Tela Home</em>
+
+  <img src="/assets/screenshots/details.png?raw=true" alt="Home" width="200" height="400" />
+
+  <img src="/assets/screenshots/filter_by_name.gif?raw=true" alt="Home" width="200" height="400" />
+
+  <img src="/assets/screenshots/filter_by_type.gif?raw=true" alt="Home" width="200" height="400" />
+
+  <img src="/assets/screenshots/details.gif?raw=true" alt="Home" width="200" height="400" />
+
+  <img src="/assets/screenshots/pagination.gif?raw=true" alt="Home" width="200" height="400" />
+
+  <img src="/assets/screenshots/random_pokemon.gif?raw=true" alt="Home" width="200" height="400" />
 </p>
 
 ## Estrutura de pastas do projeto
