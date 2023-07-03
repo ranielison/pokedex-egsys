@@ -26,7 +26,11 @@ Rode os comandos abaixo.
 ## <img src="/assets/pokedex.gif?raw=true" alt="Pokedex" height="600" />
 
 <p>
+  <img src="/assets/screenshots/initial_screen.png?raw=true" alt="Home" width="200" height="400" />
+  <em>Tela inicial</em>
+  
   <img src="/assets/screenshots/home_screen.png?raw=true" alt="Home" width="200" height="400" />
+  <em>Tela Home</em>
 </p>
 
 ## Estrutura de pastas do projeto
