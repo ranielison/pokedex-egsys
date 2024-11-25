@@ -1,7 +1,5 @@
 # Pokedex EgSys 📱
 
-Aplicativo desafio para teste em vaga Flutter.
-
 ## Pre-requisitos 📐
 
 | Tecnologia | Versão recomendada | Guia de instalação                                                    |
